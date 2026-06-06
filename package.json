@@ -1,0 +1,184 @@
+{
+  "name": "vscode-kattasutomu-bekkugoriru",
+  "displayName": "Kattasutōmu Bekkugoriru",
+  "description": "カスタムバックグラウンド — Anime-styled VS Code background image extension with slideshow support",
+  "version": "1.2.13",
+  "publisher": "少女のシルエット",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.120.0"
+  },
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "keywords": [
+    "background",
+    "image",
+    "wallpaper",
+    "theme",
+    "customize"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "customBackground.setImage",
+        "title": "Kattasutōmu Bekkugoriru: Set Background Image"
+      },
+      {
+        "command": "customBackground.setImagePath",
+        "title": "Kattasutōmu Bekkugoriru: Set Image by Path/URL"
+      },
+      {
+        "command": "customBackground.remove",
+        "title": "Kattasutōmu Bekkugoriru: Remove Background"
+      },
+      {
+        "command": "customBackground.configure",
+        "title": "Kattasutōmu Bekkugoriru: Open Settings Panel"
+      },
+      {
+        "command": "customBackground.nextImage",
+        "title": "Kattasutōmu Bekkugoriru: Next Slideshow Image"
+      },
+      {
+        "command": "customBackground.toggleSlideshow",
+        "title": "Kattasutōmu Bekkugoriru: Toggle Slideshow"
+      },
+      {
+        "command": "customBackground.setFolder",
+        "title": "Kattasutōmu Bekkugoriru: Set Background Folder"
+      }
+    ],
+    "configuration": {
+      "title": "Kattasutōmu Bekkugoriru",
+      "properties": {
+        "customBackground.imagePaths": {
+          "type": "array",
+          "default": [],
+          "description": "List of image paths for slideshow mode"
+        },
+        "customBackground.opacity": {
+          "type": "number",
+          "default": 0.15,
+          "minimum": 0.01,
+          "maximum": 0.5,
+          "description": "Background image opacity (0.01 - 0.50)"
+        },
+        "customBackground.size": {
+          "type": "string",
+          "default": "cover",
+          "enum": [
+            "cover",
+            "contain",
+            "auto",
+            "stretch"
+          ],
+          "description": "Background image size"
+        },
+        "customBackground.position": {
+          "type": "string",
+          "default": "center",
+          "enum": [
+            "center",
+            "top",
+            "bottom",
+            "left",
+            "right",
+            "top left",
+            "top right",
+            "bottom left",
+            "bottom right"
+          ],
+          "description": "Background image position"
+        },
+        "customBackground.repeat": {
+          "type": "string",
+          "default": "no-repeat",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "description": "Background image repeat"
+        },
+        "customBackground.targets": {
+          "type": "array",
+          "default": [
+            "editor",
+            "sidebar",
+            "panel"
+          ],
+          "items": {
+            "type": "string",
+            "enum": [
+              "editor",
+              "sidebar",
+              "panel",
+              "titlebar",
+              "statusbar"
+            ]
+          },
+          "description": "Where to apply the background"
+        },
+        "customBackground.slideshowEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable slideshow mode"
+        },
+        "customBackground.slideshowInterval": {
+          "type": "number",
+          "default": 30,
+          "minimum": 5,
+          "description": "Slideshow interval in seconds"
+        },
+        "customBackground.slideshowRandom": {
+          "type": "boolean",
+          "default": false,
+          "description": "Randomize slideshow order"
+        },
+        "customBackground.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable background image"
+        },
+        "customBackground.folderPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to folder containing background images"
+        },
+        "customBackground.maxWidth": {
+          "type": "number",
+          "default": 0,
+          "description": "Max width of background image in px (0 = no limit)"
+        },
+        "customBackground.maxHeight": {
+          "type": "number",
+          "default": 0,
+          "description": "Max height of background image in px (0 = no limit)"
+        },
+        "customBackground.debugMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show debug popup notifications"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.41",
+    "@types/vscode": "^1.120.0",
+    "typescript": "^5.9.3"
+  }
+}
