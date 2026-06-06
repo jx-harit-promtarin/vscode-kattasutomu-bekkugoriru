@@ -3,7 +3,7 @@
   "displayName": "Kattasutōmu Bekkugoriru",
   "description": "カスタムバックグラウンド — Anime-styled VS Code background image extension with slideshow support",
   "version": "1.2.13",
-  "publisher": "少女のシルエット",
+  "publisher": "shoujo-no-silhouette",
   "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.120.0"
