@@ -312,6 +312,35 @@ export class SettingsPanel {
         this.update();
         break;
       }
+      case "clearAllImages": {
+        // Confirmation lives here, not in the webview: window.confirm() is
+        // blocked inside VS Code webviews and returns undefined.
+        const answer = await vscode.window.showWarningMessage(
+          "Clear all images?",
+          { modal: true, detail: "This removes every image from the library." },
+          "Clear all",
+        );
+        if (answer !== "Clear all") {
+          this.outputChannel.appendLine("[clearAllImages] Cancelled by user");
+          break;
+        }
+        this.outputChannel.appendLine("[clearAllImages] Clearing image library");
+        this.slideshowManager.stop();
+        await config.update(
+          "imagePaths",
+          [],
+          vscode.ConfigurationTarget.Global,
+        );
+        await config.update(
+          "slideshowEnabled",
+          false,
+          vscode.ConfigurationTarget.Global,
+        );
+        this.cssInjector.remove();
+        this.update();
+        this._panel.webview.postMessage({ command: "saved" });
+        break;
+      }
       case "applyAndReload": {
         this.outputChannel.appendLine(
           "[applyAndReload] Applying CSS and reloading window",
@@ -335,6 +364,15 @@ export class SettingsPanel {
         break;
       }
       case "resetDefaults": {
+        const confirmReset = await vscode.window.showWarningMessage(
+          "Reset all settings to defaults?",
+          { modal: true },
+          "Reset",
+        );
+        if (confirmReset !== "Reset") {
+          this.outputChannel.appendLine("[resetDefaults] Cancelled by user");
+          break;
+        }
         this.outputChannel.appendLine(
           "[resetDefaults] Resetting all settings to defaults",
         );
@@ -843,8 +881,9 @@ function nextImage() { vscode.postMessage({ command: 'nextImage' }); }
 function prevImage() { vscode.postMessage({ command: 'prevImage' }); }
 function toggleSlideshow() { vscode.postMessage({ command: 'toggleSlideshow' }); }
 function applyAndReload() { vscode.postMessage({ command: 'applyAndReload' }); }
-function clearAll() { if (!confirm('Clear all images?')) return; vscode.postMessage({ command: 'saveSlideshowSettings', data: { slideshowEnabled: false, slideshowInterval: 30, slideshowRandom: false, imagePaths: [] }}); }
-function resetDefaults() { if (!confirm('Reset all settings to defaults?')) return; vscode.postMessage({ command: 'resetDefaults' }); }
+// confirm() is unavailable in VS Code webviews — the host shows a modal instead.
+function clearAll() { vscode.postMessage({ command: 'clearAllImages' }); }
+function resetDefaults() { vscode.postMessage({ command: 'resetDefaults' }); }
 
 function saveAppearance() {
     vscode.postMessage({ command: 'saveSettings', data: {
