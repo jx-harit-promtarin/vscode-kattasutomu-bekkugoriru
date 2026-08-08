@@ -58,6 +58,21 @@ VS Code may show a warning about a corrupted installation — this is expected w
 
 That's it. During that elevated apply the extension injects the CSS **and automatically grants your user account write access to its images folder** (via `icacls`). From then on you can launch VS Code normally:
 
+#### Granting the permission manually (equivalent command)
+
+The automatic grant runs this for you. If it failed (check the extension's Output channel for `[ensureUserAcl]`), run it yourself from an **elevated** Command Prompt / PowerShell after the first admin apply:
+
+```bat
+icacls "C:\Program Files\Microsoft VS Code\resources\app\out\vs\code\electron-browser\workbench\kgb-custom-bg-images" /grant "%USERNAME%":(OI)(CI)M
+```
+
+Notes:
+
+- Adjust the path if VS Code is installed elsewhere; on older builds the folder may be under `electron-sandbox` instead of `electron-browser`.
+- The `kgb-custom-bg-images` folder is created by the first apply — run the command after step 2.
+- To verify it worked: `icacls "...\kgb-custom-bg-images"` should list your user with `(OI)(CI)(M)`.
+- To undo later: `icacls "...\kgb-custom-bg-images" /remove "%USERNAME%"`
+
 - ✅ Backgrounds and slideshows keep working — no admin, no permission popups
 - ✅ **Random slideshow reshuffles into a fresh order on every launch** — the shuffle only rewrites image files in the writable images folder, never `workbench.html`
 - ⚠️ Admin is needed again only when the injected CSS itself must change: switching the image set, changing opacity/size/position settings, or after a **VS Code update** (updates overwrite `workbench.html`, so repeat the two steps above)
