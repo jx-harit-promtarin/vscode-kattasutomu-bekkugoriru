@@ -60,7 +60,15 @@ That's it. During that elevated apply the extension injects the CSS **and automa
 
 #### Granting the permission manually (equivalent command)
 
-The automatic grant runs this for you. If it failed (check the extension's Output channel for `[ensureUserAcl]`), run it yourself from an **elevated** Command Prompt / PowerShell after the first admin apply:
+The automatic grant runs this for you. If it failed (check the extension's Output channel for `[ensureUserAcl]`), run it yourself after the first admin apply.
+
+From an **elevated PowerShell** (the ACL spec must be quoted as one string, or PowerShell chokes on the parentheses):
+
+```powershell
+icacls "C:\Program Files\Microsoft VS Code\resources\app\out\vs\code\electron-browser\workbench\kgb-custom-bg-images" /grant "${env:USERNAME}:(OI)(CI)M"
+```
+
+Or from an **elevated Command Prompt (cmd)**:
 
 ```bat
 icacls "C:\Program Files\Microsoft VS Code\resources\app\out\vs\code\electron-browser\workbench\kgb-custom-bg-images" /grant "%USERNAME%":(OI)(CI)M
