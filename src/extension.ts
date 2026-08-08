@@ -23,13 +23,17 @@ export function activate(context: vscode.ExtensionContext) {
     const cssInjector = new CssInjector(context, outputChannel);
     const slideshowManager = new SlideshowManager(context, cssInjector, outputChannel);
 
-    cssInjector.apply();
-    outputChannel.appendLine('[activate] CSS injector applied');
-
+    // Exactly one injection path per launch: apply() writes single-image CSS, which in
+    // slideshow mode would always differ from the slideshow CSS already embedded in the
+    // workbench file — forcing a (possibly admin-only) rewrite on every launch and
+    // defeating the byte-stable no-write startup.
     const config = vscode.workspace.getConfiguration('customBackground');
     if (config.get<boolean>('slideshowEnabled') && config.get<string[]>('imagePaths', []).length > 0) {
         outputChannel.appendLine('[activate] Starting slideshow');
         slideshowManager.start();
+    } else {
+        cssInjector.apply();
+        outputChannel.appendLine('[activate] CSS injector applied');
     }
 
     context.subscriptions.push(

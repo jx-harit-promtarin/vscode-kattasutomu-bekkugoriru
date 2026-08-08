@@ -244,7 +244,7 @@ export class SettingsPanel {
             vscode.ConfigurationTarget.Global,
           );
         }
-        this.cssInjector.apply();
+        this.reapplyCurrentMode();
         this._panel.webview.postMessage({ command: "saved" });
         break;
       }
@@ -345,7 +345,7 @@ export class SettingsPanel {
         this.outputChannel.appendLine(
           "[applyAndReload] Applying CSS and reloading window",
         );
-        this.cssInjector.apply();
+        this.reapplyCurrentMode();
         vscode.commands.executeCommand("workbench.action.reloadWindow");
         break;
       }
@@ -452,6 +452,23 @@ export class SettingsPanel {
         this.update();
         break;
       }
+    }
+  }
+
+  /**
+   * Re-embeds the CSS matching the current mode. In slideshow mode this must go through
+   * slideshowManager.start() — apply() would embed single-image CSS over the slideshow
+   * markup, forcing a workbench rewrite (admin-only on system installs) on every launch.
+   */
+  private reapplyCurrentMode() {
+    const config = vscode.workspace.getConfiguration("customBackground");
+    if (
+      config.get<boolean>("slideshowEnabled", false) &&
+      config.get<string[]>("imagePaths", []).length > 0
+    ) {
+      this.slideshowManager.start();
+    } else {
+      this.cssInjector.apply();
     }
   }
 
