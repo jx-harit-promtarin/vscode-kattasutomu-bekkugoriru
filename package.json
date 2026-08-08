@@ -2,7 +2,7 @@
   "name": "vscode-kattasutomu-bekkugoriru",
   "displayName": "Kattasutōmu Bekkugoriru",
   "description": "カスタムバックグラウンド — Anime-styled VS Code background image extension with slideshow support",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "publisher": "shoujo-no-silhouette",
   "icon": "images/icon.png",
   "license": "Apache-2.0",
