@@ -32,7 +32,8 @@ export class SlideshowManager implements vscode.Disposable {
         const config = vscode.workspace.getConfiguration('customBackground');
         const enabled = config.get<boolean>('enabled', true);
         if (!enabled) {
-            this.outputChannel.appendLine('[start] Extension disabled (customBackground.enabled=false), aborting');
+            this.outputChannel.appendLine('[start] Extension disabled (customBackground.enabled=false), removing injected CSS');
+            this.cssInjector.remove();
             return;
         }
 

@@ -2,9 +2,18 @@
   "name": "vscode-kattasutomu-bekkugoriru",
   "displayName": "Kattasutōmu Bekkugoriru",
   "description": "カスタムバックグラウンド — Anime-styled VS Code background image extension with slideshow support",
-  "version": "1.2.14",
+  "version": "1.2.18",
   "publisher": "shoujo-no-silhouette",
   "icon": "images/icon.png",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jx-harit-promtarin/vscode-kattasutomu-bekkugoriru.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jx-harit-promtarin/vscode-kattasutomu-bekkugoriru/issues"
+  },
+  "homepage": "https://github.com/jx-harit-promtarin/vscode-kattasutomu-bekkugoriru#readme",
   "engines": {
     "vscode": "^1.120.0"
   },
